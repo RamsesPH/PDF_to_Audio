@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudioBook App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="app flex-container">
+
+    <div class="form-section">
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <h1>Upload a PDF file</h1>
+            <div class="separator-line">
+            <input type="file" name="file" accept=".pdf">
+            <input class="upload-button" type="submit" value="Click to Upload PDF">
+            </div>
+        </form>
+
+        <form action="/process_pdf" method="POST">
+            <div class="separator">
+            <select class="file-dropdown" name="file">
+            <option value="" selected>Select a file to convert to Audio</option>
+            {% for file in list_pdf %}
+            <option value="{{ file }}">Choose File : {{ file }}</option>
+            {% endfor %}
+            </select>
+            <br><br>
+            <input type="submit" value="Click to process PDF to Audio" class="process-button">
+            </div>
+        </form>
+    </div>
+
+    <div class="pdf">
+        <h2>List of PDF Files ( Documents only ) </h2>
+        {% for file in list_pdf %}
+            <li><a href="{{ url_for('serve_pdf', filename=file) }}" >{{ file }}</a></li>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>
